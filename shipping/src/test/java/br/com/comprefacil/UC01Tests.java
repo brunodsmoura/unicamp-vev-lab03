@@ -42,7 +42,7 @@ public class UC01Tests {
 		FreteTO frete = new FreteTO();
 		frete.setCodigoServico("40010")
 			.setCepDestino("04538132")
-			.setPeso("0,5")
+			.setPeso("0.5")
 			.setCodigoFormato(1)
 			.setComprimento(10)
 			.setAltura(10)
@@ -69,12 +69,12 @@ public class UC01Tests {
 	            .willReturn(aResponse()
 	                .withStatus(200)
 	                .withHeader("Content-Type", "application/json")
-	                .withBody("{ \"Codigo\": \"0\", \"Valor\": \"10,50\", \"PrazoEntrega\": \"1\", \"ValorMaoPropria\": \"0,00\", \"ValorAvisoRecebimento\": \"0,00\", \"ValorValorDeclarado\": \"0,00\", \"EntregaDomiciliar\": \"S\", \"EntregaSabado\": \"S\", \"Erro\": \"0\", \"MsgErro\": \"\" }")));
+	                .withBody("{ \"Codigo\": \"0\", \"Valor\": \"10.50\", \"PrazoEntrega\": \"1\", \"ValorMaoPropria\": \"0.00\", \"ValorAvisoRecebimento\": \"0.00\", \"ValorValorDeclarado\": \"0.00\", \"EntregaDomiciliar\": \"S\", \"EntregaSabado\": \"S\", \"Erro\": \"0\", \"MsgErro\": \"\" }")));
 
 		frete = freteService.calcPrecoPrazo(frete);
 		
 		assertNotNull(frete);
-		assertTrue(String.valueOf(frete.getValor()).equals("10,50"));
+		assertTrue(String.valueOf(frete.getValor()).equals("10.5"));
 		assertTrue(String.valueOf(frete.getPrazo()).equals("1"));
 	}
 }
