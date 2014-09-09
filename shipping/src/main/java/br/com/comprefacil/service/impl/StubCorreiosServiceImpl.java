@@ -1,5 +1,6 @@
 package br.com.comprefacil.service.impl;
 
+import org.apache.http.MalformedChunkCodingException;
 import org.json.JSONObject;
 
 import br.com.comprefacil.call.HttpFetcher;
@@ -38,7 +39,7 @@ public class StubCorreiosServiceImpl implements CorreiosService {
 		return enderecoJSON;
 	}
 
-	public JSONObject calcPrecoPrazo(FreteTO frete) throws CorreiosException {
+	public JSONObject calcPrecoPrazo(FreteTO frete) throws CorreiosException, MalformedChunkCodingException {
 		JSONObject freteJSON = null;
 
 		try {
@@ -58,6 +59,8 @@ public class StubCorreiosServiceImpl implements CorreiosService {
 					+ "&sCdAvisoRecebimento=" + frete.getAvisoRecebimento()
 					);
 			freteJSON = new JSONObject(fretePrazo);
+		}catch(MalformedChunkCodingException ex){
+			throw ex;
 		}catch(Exception cause){
 			cause.printStackTrace();
 		}

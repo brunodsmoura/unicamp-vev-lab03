@@ -2,6 +2,7 @@ package br.com.comprefacil.service.impl;
 
 import java.util.regex.Pattern;
 
+import org.apache.http.MalformedChunkCodingException;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -20,7 +21,7 @@ public class FreteServiceImpl implements FreteService {
 	private static Logger logger = Logger.getLogger(FreteServiceImpl.class);
 
 	public FreteTO calcPrecoPrazo(FreteTO frete)
-		throws CorreiosException {
+		throws CorreiosException, MalformedChunkCodingException {
 
 		CorreiosService correiosService = EnderecoFactory.getCorreiosInstance();
 		JSONObject retornoWsCorreios = correiosService.calcPrecoPrazo(frete);
@@ -28,6 +29,8 @@ public class FreteServiceImpl implements FreteService {
 		try{
 			 frete.setValor(Double.parseDouble(retornoWsCorreios.getString("Valor")));
 			 frete.setPrazo(Integer.parseInt(retornoWsCorreios.getString("PrazoEntrega")));
+			 frete.setErro(Integer.parseInt(retornoWsCorreios.getString("Erro")));
+			 frete.setMensagemErro(retornoWsCorreios.getString("MsgErro"));
 			 
 			 logger.debug("Preço e prazo calculado: " + frete);
 		}catch(Exception cause){
