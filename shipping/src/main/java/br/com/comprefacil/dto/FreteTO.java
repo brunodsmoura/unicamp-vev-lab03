@@ -15,6 +15,8 @@ public class FreteTO {
 	private String maoPropria;
 	private double valorDeclarado;
 	private String avisoRecebimento;
+	private int erro;
+	private String mensagemErro;
 	
 	private double valor;
 	private int prazo;
@@ -169,6 +171,24 @@ public class FreteTO {
 
 	public FreteTO setPrazo(int prazo) {
 		this.prazo = prazo;
+		return this;
+	}
+
+	public int getErro() {
+		return erro;
+	}
+
+	public FreteTO setErro(int erro) {
+		this.erro = erro;
+		return this;
+	}
+
+	public String getMensagemErro() {
+		return mensagemErro;
+	}
+
+	public FreteTO setMensagemErro(String mensagemErro) {
+		this.mensagemErro = mensagemErro;
 		return this;
 	}
 	
