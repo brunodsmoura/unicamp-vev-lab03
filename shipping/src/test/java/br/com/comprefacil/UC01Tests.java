@@ -12,12 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import br.com.comprefacil.dto.EnderecoTO;
 import br.com.comprefacil.dto.FreteTO;
-import br.com.comprefacil.exception.CepInvalidoException;
-import br.com.comprefacil.exception.CorreiosException;
 import br.com.comprefacil.factory.EnderecoFactory;
-import br.com.comprefacil.service.EnderecoService;
 import br.com.comprefacil.service.FreteService;
 
 import com.github.tomakehurst.wiremock.http.Fault;
@@ -401,7 +397,7 @@ public class UC01Tests {
 	}
 	
 	@Test(expected=org.apache.http.MalformedChunkCodingException.class)
-	public void testMalformedChunkCoding() throws Exception {
+	public void testDadosRespostaServicoCorrompidos() throws Exception {
 		FreteTO frete = new FreteTO();
 		frete.setCodigoServico("40010")
 			.setCepDestino("04538132")
