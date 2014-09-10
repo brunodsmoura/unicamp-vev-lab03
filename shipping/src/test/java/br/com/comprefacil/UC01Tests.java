@@ -433,4 +433,48 @@ public class UC01Tests {
 
 		frete = freteService.calcPrecoPrazo(frete);
 	}
+	
+	@Test
+	public void testLentidaoRespostaServico() throws Exception {
+		FreteTO frete = new FreteTO();
+		frete.setCodigoServico("40010")
+			.setCepDestino("04538132")
+			.setPeso("0.5")
+			.setCodigoFormato(1)
+			.setComprimento(10)
+			.setAltura(10)
+			.setLargura(10)
+			.setDiametro(17.32)
+			.setMaoPropria("N")
+			.setValorDeclarado(0)
+			.setAvisoRecebimento("N");
+		
+		stubFor(get(urlEqualTo("/correios/frete?nCdEmpresa=" + frete.getCodigoEmpresa()
+				+ "&sDsSenha=" + frete.getSenha()
+				+ "&nCdServico=" + frete.getCodigoServico()
+				+ "&sCepOrigem=" + frete.getCepOrigem()
+				+ "&sCepDestino=" + frete.getCepDestino()
+				+ "&nVlPeso=" + frete.getPeso()
+				+ "&nCdFormato=" + frete.getCodigoFormato()
+				+ "&nVlComprimento=" + frete.getComprimento()
+				+ "&nVlAltura=" + frete.getAltura()
+				+ "&nVlLargura=" + frete.getLargura()
+				+ "&nVlDiametro=" + frete.getDiametro()
+				+ "&sCdMaoPropria=" + frete.getMaoPropria()
+				+ "&nVlValorDeclarado=" + frete.getValorDeclarado()
+				+ "&sCdAvisoRecebimento=" + frete.getAvisoRecebimento()))
+	            .willReturn(aResponse()
+	                .withStatus(200)
+	                .withHeader("Content-Type", "application/json")
+	                .withBody("{ \"Codigo\": \"0\", \"Valor\": \"10.50\", \"PrazoEntrega\": \"1\", \"ValorMaoPropria\": \"0.00\", \"ValorAvisoRecebimento\": \"0.00\", \"ValorValorDeclarado\": \"0.00\", \"EntregaDomiciliar\": \"S\", \"EntregaSabado\": \"S\", \"Erro\": \"0\", \"MsgErro\": \"\" }")
+	                .withFixedDelay(5000)));
+
+
+		frete = freteService.calcPrecoPrazo(frete);
+		
+		assertNotNull(frete);
+		assertTrue(String.valueOf(frete.getValor()).equals("10.5"));
+		assertTrue(String.valueOf(frete.getPrazo()).equals("1"));
+		assertTrue(frete.getErro() == 0);
+	}
 }
